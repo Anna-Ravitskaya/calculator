@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Добавление и удаление карточек по шаблону с выбором иконки и учетом цены</title>
+  <style>
+    .card {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .icon-button {
+      color: black;
+      background-color: #eee;
+    }
+    .icon-button.selected {
+      color: white;
+      background-color: orange;
+    }
+  </style>
+</head>
+<body>
+  <h1>Добавление и удаление карточек по шаблону с выбором иконки и учетом цены</h1>
+
+  <div id="cardContainer">
+    <!-- Здесь будет отображаться добавленные карточки -->
+  </div>
+
+  <button onclick="addCard()">Добавить карточку</button>
+  <button onclick="removeCard()">Удалить карточку</button>
+  <button onclick="calculateTotal()">Вычислить общую сумму</button>
+
+  <template id="cardTemplate">
+    <div class="card">
+      <h2>Новая карточка</h2>
+      <div class="icons">
+        <button class="icon-button" onclick="selectIcon(this)" data-price="10">Иконка 1</button>
+        <button class="icon-button" onclick="selectIcon(this)" data-price="20">Иконка 2</button>
+        <button class="icon-button" onclick="selectIcon(this)" data-price="30">Иконка 3</button>
+        <br>
+        Количество (в кг): <input type="number" step="0.1" min="0" value="0" onchange="updatePrice(this)">
+      </div>
+      <div class="selected-icon">Выбранная иконка: нет</div>
+      <div class="total-price">Выбранная цена: 0 рублей</div>
+    </div>
+  </template>
+
+  <script>
+    function addCard() {
+      var template = document.getElementById("cardTemplate");
+      var cardClone = template.content.cloneNode(true);
+      document.getElementById("cardContainer").appendChild(cardClone);
+    }
+
+    function removeCard() {
+      var cards = document.getElementsByClassName("card");
+      if (cards.length > 0) {
+        var lastCard = cards[cards.length - 1];
+        lastCard.parentNode.removeChild(lastCard);
+      }
+    }
+
+    function selectIcon(button) {
+      var card = button.closest(".card");
+      var buttons = card.getElementsByClassName("icon-button");
+
+      // Удаление класса "selected" у других кнопок
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove("selected");
+      }
+
+      button.classList.add("selected");
+      var iconText = button.textContent;
+      var selectedIconElement = card.getElementsByClassName("selected-icon")[0];
+      selectedIconElement.textContent = "Выбранная иконка: " + iconText;
+    }
+
+    function updatePrice(input) {
+      var card = input.closest(".card");
+      var quantity = input.value;
+      var pricePerKg = 0;
+      var buttons = card.getElementsByClassName("icon-button");
+
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].classList.contains("selected")) {
+          pricePerKg = parseFloat(buttons[i].dataset.price);
+          break;
+        }
+      }
+
+      var totalPrice = quantity * pricePerKg;
+      var totalPriceElement = card.getElementsByClassName("total-price")[0];
+      totalPriceElement.textContent = "Выбранная цена: " + totalPrice.toFixed(2) + " рублей";
+    }
+
+    function calculateTotal() {
+      var cards = document.getElementsByClassName("card");
+      var totalSum = 0;
+
+      for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        var quantityInput = card.querySelector(".icons input");
+        var quantity = parseFloat(quantityInput.value);
+        var pricePerKg = 0;
+
+        var buttons = card.getElementsByClassName("icon-button");
+        for (var j = 0; j < buttons.length; j++) {
+          if (buttons[j].classList.contains("selected")) {
+            pricePerKg = parseFloat(buttons[j].dataset.price);
+            break;
+          }
+        }
+
+        totalSum += quantity * pricePerKg;
+      }
+
+      alert("Общая сумма: " + totalSum.toFixed(2) + " рублей");
+    }
+  </script>
+</body>
+</html>

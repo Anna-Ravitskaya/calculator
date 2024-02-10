@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="toolpad">
+            <button id="logo" class="button-square">
+                <img class="square-icon" src="i/logo.svg">
+            </button>
+            <button onclick="addCard()" id="plus" class="button-square">
+                <img class="square-icon" src="i/plus.svg">
+            </button>
+            <button onclick="removeCard()" id="minus" class="button-square">
+                <img class="square-icon" src="i/minus.svg">
+            </button>
+            <button onclick="calculateTotal()" id="equal" class="button-square">
+                <img class="square-icon" src="i/equal.svg">
+            </button>
+        </div>
+        <div class="l-container">
+            <div class="H1-title">РАЗДЕЛЯЙ И ВЛАСТВУЙ</div>
+            <div id="cardContainer"></div>
+            <template id="cardTemplate">  
+                <div class="card">
+                    <button onclick="selectIcon(this)" class="icon-button" data-price="10"><img src="i/pet.svg"></button>
+                    <button onclick="selectIcon(this)" class="icon-button" data-price="20"><img src="i/hdpe.svg"></button>
+                    <button onclick="selectIcon(this)" class="icon-button" data-price="30"><img src="i/ldpe.svg"></button>
+                    <button onclick="selectIcon(this)" class="icon-button" data-price="35"><img src="i/pp.svg"></button>      
+                    <input class="amount" type="number" step="0.1" min="0" placeholder="кол-во (кг)">
+                </div>
+
+            </template>    
+        </div>
+        <div class="r-container">
+            <div class="regulartext">этот калькулятор поможет посчитать, <br> сколько деняк вы получите за сдачу пластика
+            </div>
+            <div class="result">введите данные</div>
+            <div class="result-addition hide-element">
+                помните, что сдавая мусор, вы сокращаете <br> выбросы парниковых газов
+            </div>
+        </div>
+    </div>
+</body>
+</html>
